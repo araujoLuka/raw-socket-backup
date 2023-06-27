@@ -82,7 +82,7 @@ int makeRawSocket(char *interface) {
 
 int main(int argc, char *argv[]) {
     int rs;
-	char *interface = "eth0";
+	char *interface = "enp3s0";
 	uint8_t *src_mac;
 
 	src_mac = allocate_ustrmem(6);
