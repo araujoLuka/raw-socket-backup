@@ -35,7 +35,7 @@ int getMac(int *rs, uint8_t **src_mac) {
 	struct ifreq ifr;
 
 	memset(&ifr, 0, sizeof(struct ifreq));
-	if (ioctl(*rs, SIOCGIFHWADDR, &ifr) < 0) {
+	if (ioctl(*rs, SIOCGIFINDEX, &ifr) < 0) {
 		perror("ioctl() failed to get source MAC address ");
 		return 0;
 	}
