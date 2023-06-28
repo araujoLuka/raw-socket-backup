@@ -101,7 +101,22 @@ void trata_mensagem_recebida() {
                 return;
             }
 
-            enviaMensagem(strlen(nome), 0, MEN_TIPO_RECUPERA_NOME, (unsigned char *)nome);
+            if (!conversaPadrao(strlen(nome), 0, MEN_TIPO_RECUPERA_NOME, (unsigned char *)nome)) {
+                enviaMensagem(0, 0, MEN_TIPO_ERRO, NULL);
+            }
+
+
+            int i = 0;
+            while(fgets((char*)char_buffer, 63, arquivoAberto) != NULL) {
+                if (!conversaPadrao(strlen(char_buffer), i, MEN_TIPO_DADOS, (unsigned char*)char_buffer)) {
+                    return;
+                }
+
+                if (++i >= 63)
+                    i = 0;
+            }
+
+            conversaPadrao(0, 0, MEN_TIPO_FIM_ARQUIVO, NULL);
         break;
 
         case (MEN_TIPO_RECUPERA_MULT) :
