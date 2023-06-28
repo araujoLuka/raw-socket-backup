@@ -258,10 +258,10 @@ void envia_proxima_mensagem() {
 
     printf("Escolha o que fazer:\n");
     printf("(1) Backup 1 arquivo\n");
-    printf("(2) Backup varios arquivo\n");
+    printf("(2) Backup varios arquivos\n");
     printf("(3) Recupera 1 arquivo\n");
-    printf("(4) Recupera varios arquivo\n");
-    printf("(5) Muda Dir\n");
+    printf("(4) Recupera varios arquivos\n");
+    printf("(5) Muda Diretorio\n");
     printf("(6) Verifica arquivo\n");
     printf("(7) Encerra\n");
 
