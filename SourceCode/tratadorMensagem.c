@@ -312,6 +312,11 @@ void envia_proxima_mensagem() {
             enviaMensagem(strlen((char *)nome), 0, MEN_TIPO_RECUPERA_1, nome);
             trata_mensagem_recebida();
 
+            if (obtemTipoMensagem(men_recebida.tamanho_sequencia_tipo) == MEN_TIPO_ERRO) {
+                fprintf(stderr, "ERRO: arquivo nao existe no servidor\n");
+                return;
+            }
+
             // if (!conversaPadrao(strlen((char *)nome), 0, MEN_TIPO_RECUPERA_1, nome)) {
             //     if (obtemTipoMensagem(men_recebida.tamanho_sequencia_tipo) == MEN_TIPO_ERRO) {
             //         fprintf(stderr, "ERRO: arquivo solicitado nao existe no servidor\n");
