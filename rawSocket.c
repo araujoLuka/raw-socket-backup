@@ -1,3 +1,4 @@
+#include <errno.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -30,22 +31,6 @@ uint8_t *allocate_ustrmem(int len) {
 	return(tmp);
 }
 
-// Pega o mac da maquina atual
-int getMac(int *rs, uint8_t **src_mac) {
-	struct ifreq ifr;
-
-	memset(&ifr, 0, sizeof(struct ifreq));
-	if (ioctl(*rs, SIOCGIFINDEX, &ifr) < 0) {
-		perror("ioctl() failed to get source MAC address ");
-		return 0;
-	}
-
-	// Copy source MAC address.
-	memcpy (*src_mac, ifr.ifr_hwaddr.sa_data, 6 * sizeof (uint8_t));
-
-	return 1;
-}
- 
 // Gerador de socket raw (Professor Todt)
 int makeRawSocket(char *interface) {
     // Cria arquivo para o socket sem qualquer protocolo
@@ -80,41 +65,84 @@ int makeRawSocket(char *interface) {
     return soquete;
 }
 
-int main(int argc, char *argv[]) {
-    int rs;
-	char *interface = "enp3s0";
-	uint8_t *src_mac;
+void connectionServer() {
+    int rs = makeRawSocket("enp3s0");
 
-	src_mac = allocate_ustrmem(6);
+    char buffer[255];
+    int nbytes = 0;
+    int size = 80;
 
-	rs = makeRawSocket(interface);
+    while(1) {
+        printf("Waiting for message from client...\n");
 
-	if (!getMac(&rs, &src_mac))
-		exit(EXIT_FAILURE);
+        while (nbytes < 80) {
+            if ((nbytes = recv(rs, buffer, 255, 0)) < 0) {
+                fprintf(stderr, "Error to receive response\n");
+                send(rs, "NACK", 80, 0);
+                break;
+            } else {
+                printf("Received %s from server\n", buffer);
+                send(rs, "ACK", 80, 0);
+            }
+        }
 
-	char buffer[255];
-	char *hello = "Hello Raw";
-	int nbytes = 0;
-
-	while(1) {
-		if (send(rs, hello, sizeof(&hello), 0) < 0) {
-			fprintf(stderr, "Error to send\n");
-		}
-
-		if ((nbytes = recv(rs, buffer, 255, 0)) < 0)
-		{
-			fprintf(stderr, "Error to receive\n");
-		} else {
-			printf("Received %s\n", buffer);
-		}
+        sleep(1);
 	}
-
-
-
-
-
-
     close(rs);
+}
+
+void connectionClient() {
+    int rs = makeRawSocket("enp3s0");
+
+    char buffer[255];
+    int nbytes = 0;
+    int size = 0;
+
+    while(1) {
+        printf("Tip a message to send: ");
+        scanf("%s", buffer);
+        
+        size = strlen(buffer);
+        if (size < 80)
+            size = 80;
+
+        if ((nbytes = send(rs, buffer, size, 0)) < 0) {
+            fprintf(stderr, "Error to send - nbytes=%d - error=%d\n", nbytes, errno);
+        } else {
+            printf("Sended %d bytes with send()\n", nbytes);
+        }
+        nbytes = 0;
+
+        printf("Waiting for response...\n");
+
+        while (nbytes < 80) {
+            if ((nbytes = recv(rs, buffer, 255, 0)) < 0) {
+                fprintf(stderr, "Error to receive response\n");
+                break;
+            } else {
+                printf("Received %s from server\n", buffer);
+            }
+        }
+
+        sleep(1);
+	}
+    close(rs);
+}
+
+void startConnection(int client) {
+    if (client)
+        connectionClient();
+
+    connectionServer();
+}
+
+int main(int argc, char *argv[]) {
+    int userType;
+
+    printf("Set your user type (1 - Client | 0 - Server): ");
+    scanf("%d", &userType);
+
+    startConnection(userType);
 
     return 0;
 }
