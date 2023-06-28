@@ -67,7 +67,6 @@ void trata_mensagem_recebida() {
                 return;
             }
 
-
             //
 
             enviaMensagem(0, 0, MEN_TIPO_ACK, NULL);
@@ -317,12 +316,17 @@ void envia_proxima_mensagem() {
                 return;
             }
 
-            // if (!conversaPadrao(strlen((char *)nome), 0, MEN_TIPO_RECUPERA_1, nome)) {
-            //     if (obtemTipoMensagem(men_recebida.tamanho_sequencia_tipo) == MEN_TIPO_ERRO) {
-            //         fprintf(stderr, "ERRO: arquivo solicitado nao existe no servidor\n");
-            //     }
-            //     return;
-            // }
+            recupera = 1;
+            while (recupera && obtemTipoMensagem(men_recebida.tamanho_sequencia_tipo) != MEN_TIPO_NACK) {
+                trata_mensagem_recebida();
+            }
+
+            if (recupera) {
+                fprintf(stderr, "ERRO: falha ao recuperar arquivo\n");
+                recupera = 0;
+                enviaMensagem(0, 0, MEN_TIPO_FIM_ARQUIVO, NULL);
+                return;
+            }
 
             strcpy((char*)nome, (char*)men_recebida.dados);
             printf("Arquivo %s restaurado com sucesso!\n", nome);
