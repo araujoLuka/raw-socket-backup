@@ -127,6 +127,16 @@ void trata_mensagem_recebida() {
         case (MEN_TIPO_RECUPERA_MULT) :
             strcpy(tipoDeAcesso, "r");
 
+        case (MEN_TIPO_MUDAR_DIR) :
+
+            strcpy(path_inf.diretorio_atual, (char*) men_recebida.dados);
+
+            printf("novo dir: %s\n\n", path_inf.diretorio_atual);
+            
+            enviaMensagem(0, 0, MEN_TIPO_ACK, NULL);
+
+        break;
+
             enviaMensagem(0, 0, MEN_TIPO_ACK, NULL);
         break;
 
