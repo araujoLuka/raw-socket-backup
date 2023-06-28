@@ -102,7 +102,8 @@ void connectionClient() {
 
     while(1) {
         printf("Tip a message to send: ");
-        scanf("%s", buffer);
+        fgets(buffer, 255, stdin);
+        buffer[strcspn(buffer, "\n")] = 0;
         
         size = strlen(buffer);
         if (size < 80)
@@ -128,9 +129,6 @@ void connectionClient() {
         printf("Received %s from server\n", buffer);
         nbytes = 0;
 
-        // Usado para esvaziar a entrada e evitar erros no stdin
-        scanf("%s", buffer);
-
         sleep(1);
 	}
     close(rs);
@@ -148,6 +146,9 @@ int main(int argc, char *argv[]) {
 
     printf("Set your user type (1 - Client | 0 - Server): ");
     scanf("%d", &userType);
+
+    // Usado para esvaziar a entrada e evitar erros no stdin
+    fgetc(stdin);
 
     startConnection(userType);
 
