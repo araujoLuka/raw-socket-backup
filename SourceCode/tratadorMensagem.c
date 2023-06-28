@@ -51,15 +51,15 @@ void trata_mensagem_recebida() {
                 strcpy(tipoDeAcesso, "w");
             }
 
-            printf("Dados: Nome de arquivo recebido %s\n", men_recebida.dados);
             strcpy((char*) char_buffer, (char*) men_recebida.dados);
+            printf("Dados: Nome de arquivo recebido %s\n", char_buffer);
 
             //
 
             arquivoAberto = fopen((char*) char_buffer, tipoDeAcesso);
             if (arquivoAberto == NULL) {
+                fprintf(stderr, "ERRO: Falha ao abrir arquivo");
                 enviaMensagem(0, 0, MEN_TIPO_ERRO, NULL);
-                fprintf(stderr, "ERRO ao abrir arquivo");
                 return;
             }
 

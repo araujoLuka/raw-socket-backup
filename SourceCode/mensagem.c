@@ -166,6 +166,9 @@ int conversaPadrao(int tam, int sequencia, int tipo, unsigned char* dados) {
             if (tipoResposta == MEN_TIPO_NACK) {
                 printf("ERRO: Recebido NACK\n");
                 return 0;
+            } else if (tipoResposta == MEN_TIPO_ERRO) {
+                printf("ERRO: Recebido codigo de erro\n");
+                return 0;
             }
             paraAlarme();
             return 1;
