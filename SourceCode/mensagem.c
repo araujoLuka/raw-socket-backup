@@ -153,6 +153,8 @@ int recebeMensagem() {
 // procedimento para conversa entre cliente e servidor
 // controla o limite de timeouts
 int conversaPadrao(int tam, int sequencia, int tipo, unsigned char* dados) {
+    int tipoResposta;
+
     iniciaAlarme();
 
     //
@@ -165,11 +167,18 @@ int conversaPadrao(int tam, int sequencia, int tipo, unsigned char* dados) {
 
         if (recebeMensagem()) {
             printf("DEBUG: Recebido resposta do servidor\n");
+
+            tipoResposta = obtemTipoMensagem(men_recebida.tamanho_sequencia_tipo);
+            if (tipoResposta == MEN_TIPO_NACK) {
+                printf("ERRO: Recebido NACK\n");
+                return 0;
+            }
             paraAlarme();
             return 1;
         }
 
         printf("DEBUG: Falha ao receber resposta do servidor\n");
+        printf("DEBUG: Numero de timeouts = %d\n", timeouts+1);
     }
 
     //
