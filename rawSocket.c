@@ -80,11 +80,12 @@ void connectionServer() {
                 fprintf(stderr, "Error to receive response\n");
                 send(rs, "NACK", 80, 0);
                 break;
-            } else {
-                printf("Received %s from server\n", buffer);
-                send(rs, "ACK", 80, 0);
             }
+            if (!strcmp(buffer, "33") || nbytes == 255)
+                nbytes = 0;
         }
+        printf("Received message %s and %d bytes from client\n", buffer, nbytes);
+        send(rs, "ACK", 80, 0);
         nbytes = 0;
 
         sleep(1);
@@ -120,10 +121,11 @@ void connectionClient() {
             if ((nbytes = recv(rs, buffer, 255, 0)) < 0) {
                 fprintf(stderr, "Error to receive response\n");
                 break;
-            } else {
-                printf("Received %s from server\n", buffer);
             }
+            if (!strcmp(buffer, "33") || nbytes == 255)
+                nbytes = 0;
         }
+        printf("Received %s from server\n", buffer);
         nbytes = 0;
 
         sleep(1);
