@@ -138,7 +138,15 @@ void envia_proxima_mensagem() {
             printf("qual arquivo:\n");
 
             unsigned char nome[64];
+            unsigned char dados[64];
             scanf("%s", nome);
+
+            FILE* arquivo_backup = fopen((char*)nome, "r");
+
+            if (!arquivo_backup) {
+                fprintf(stderr, "ERRO: Arquivo '%s' nao existente!", nome);
+                return;
+            }
 
             //
 
@@ -148,8 +156,6 @@ void envia_proxima_mensagem() {
 
             //
 
-            unsigned char dados[64];
-            FILE* arquivo_backup = fopen((char*)nome, "r");
             i = 0;
 
             while(!feof(arquivo_backup)) {
