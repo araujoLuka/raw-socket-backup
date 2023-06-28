@@ -103,40 +103,7 @@ void trata_mensagem_recebida() {
                 return;
             }
 
-            printf("DEBUG: enviando RECUPERA_NOME\n");
-            enviaMensagem(strlen(nome), 0, MEN_TIPO_RECUPERA_NOME, (unsigned char*)nome);
-
-            printf("DEBUG: enviando DADOS\n");
-            int i = 0, tipoResposta;
-            while(fgets((char*)char_buffer, 63, arquivoAberto) != NULL) {
-                recebeMensagem();
-                tipoResposta = obtemTipoMensagem(men_recebida.tamanho_sequencia_tipo);
-                if (tipoResposta == MEN_TIPO_NACK) {
-                    printf("ERRO: Recebido NACK\n");
-                    return;
-                } else if (tipoResposta == MEN_TIPO_ERRO) {
-                    printf("ERRO: Recebido codigo de erro\n");
-                    return;
-                }
-
-                enviaMensagem(sizeof(char_buffer), i, MEN_TIPO_DADOS, (unsigned char*) char_buffer);
-                if (++i >= 63)
-                    i = 0;
-            }
-
-            recebeMensagem();
-            tipoResposta = obtemTipoMensagem(men_recebida.tamanho_sequencia_tipo);
-            if (tipoResposta == MEN_TIPO_NACK) {
-                printf("ERRO: Recebido NACK\n");
-                return;
-            } else if (tipoResposta == MEN_TIPO_ERRO) {
-                printf("ERRO: Recebido codigo de erro\n");
-                return;
-            }
-
-            printf("DEBUG: enviando FIM_ARQUIVO\n");
-            enviaMensagem(0, 0, MEN_TIPO_FIM_ARQUIVO, NULL);
-            recebeMensagem();
+            enviaMensagem(strlen(nome), 0, MEN_TIPO_RECUPERA_NOME, (unsigned char *)nome);
         break;
 
         case (MEN_TIPO_RECUPERA_MULT) :
@@ -352,21 +319,7 @@ void envia_proxima_mensagem() {
                 return;
             }
 
-            enviaMensagem(0, 0, MEN_TIPO_ACK, NULL);
-
-            // se existe, começa a receber
-
-            recupera = 1;
-            while (recupera && obtemTipoMensagem(men_recebida.tamanho_sequencia_tipo) != MEN_TIPO_NACK) {
-                trata_mensagem_recebida();
-            }
-
-            if (recupera == 1) {
-                fprintf(stderr, "ERRO: Falha ao recuperar arquivo\n");
-                recupera = 0;
-                return;
-            }
-
+            strcpy((char*)nome, (char*)men_recebida.dados);
             printf("Arquivo %s restaurado com sucesso!\n", nome);
         break;
 
