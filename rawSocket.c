@@ -102,7 +102,7 @@ void connectionClient() {
 
     while(1) {
         printf("Tip a message to send: ");
-        scanf("%s\n", buffer);
+        scanf("%s", buffer);
         
         size = strlen(buffer);
         if (size < 80)
@@ -127,6 +127,9 @@ void connectionClient() {
         }
         printf("Received %s from server\n", buffer);
         nbytes = 0;
+
+        // Usado para esvaziar a entrada e evitar erros no stdin
+        scanf("%s", buffer);
 
         sleep(1);
 	}
