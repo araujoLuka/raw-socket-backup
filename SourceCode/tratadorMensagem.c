@@ -59,7 +59,7 @@ void trata_mensagem_recebida() {
             strcpy(tipoDeAcesso, "w");
 
             strcpy(file_path, path_inf.diretorio_atual);
-            strcpy((char*) nome, (char*) men_recebida.dados);
+            strcat((char*) nome, (char*) men_recebida.dados);
             printf("Dados: Nome de arquivo recebido %s\n", nome);
 
             //
@@ -96,7 +96,7 @@ void trata_mensagem_recebida() {
             strcpy(tipoDeAcesso, "r");
 
             strcpy(file_path, path_inf.diretorio_atual);
-            strcpy((char*) nome, (char*) men_recebida.dados);
+            strcat((char*) nome, (char*) men_recebida.dados);
             printf("Dados: Nome de arquivo para ser recuperado %s\n", nome);
 
             arquivoAberto = fopen((char *)men_recebida.dados, tipoDeAcesso);
@@ -128,13 +128,11 @@ void trata_mensagem_recebida() {
             strcpy(tipoDeAcesso, "r");
 
         case (MEN_TIPO_MUDAR_DIR) :
-
             strcpy(path_inf.diretorio_atual, (char*) men_recebida.dados);
 
             printf("novo dir: %s\n\n", path_inf.diretorio_atual);
             
             enviaMensagem(0, 0, MEN_TIPO_ACK, NULL);
-
         break;
 
             enviaMensagem(0, 0, MEN_TIPO_ACK, NULL);
