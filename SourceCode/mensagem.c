@@ -118,20 +118,12 @@ int recebeMensagem() {
 		if (nbytes > 0)
 		{
 			// analise marcador de init, se nao tiver eh lixo
-            fprintf(stderr, "%d\n", men.marcador_ini);
 			if (men.marcador_ini != MARCADOR_INIT) {
-                fprintf(stderr, "DEBUGG Mensage recebida, mas nao possui marcador de inicio\n");
 				continue;
             }
 
-            printf("DEBUG: message = \n");
-            char *x = (char*)&men;
-            for (int i = 0; i < 96; i++, x++)
-                printf("%c", *x);
-            printf("\n");
-
 			// copia dados para men_recebida e sai do loop
-			men_recebida = men; // AI LUCAO, acho q eh meior copiar direto pra men_recebida, n precisa se preocupar em perder a original em caso de erro
+			men_recebida = men; 
 			mensagem_recebida = 1;
 		}
     }
@@ -144,7 +136,7 @@ int recebeMensagem() {
 
     //
     
-    fprintf(stderr, "DEBUGG Mensagem recebida com sucesso\n");
+    fprintf(stderr, "DEBUG: Mensagem recebida com sucesso\n");
     return 1;
 
 }
