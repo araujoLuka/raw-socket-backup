@@ -10,6 +10,8 @@ extern mensagem men_enviada;
 
 FILE* arquivoAberto;
 char tipoDeAcesso[3];
+    
+int mult = 0, totalArquivos = 0, arq = 0;
 
 //=====================================================
 
@@ -44,12 +46,13 @@ void trata_mensagem_recebida() {
 
     switch(initial_message) {
         case (MEN_TIPO_BACKUP_1) :
-            printf("Tipo: Inicio de backup para 1 arquivo\n");
-            strcpy(tipoDeAcesso, "w");
+            if (mult == 0) {
+                printf("Tipo: Inicio de backup para 1 arquivo\n");
+                strcpy(tipoDeAcesso, "w");
+            }
 
             printf("Dados: Nome de arquivo recebido %s\n", men_recebida.dados);
             strcpy((char*) char_buffer, (char*) men_recebida.dados);
-            printf("arquivo: %s\n\n", char_buffer);
 
             //
 
@@ -61,18 +64,43 @@ void trata_mensagem_recebida() {
             }
 
             //
+            
+            if (mult == 0) {
+                printf("Arquivo recebido: %s\n\n", char_buffer);
+            }
+            else {
+                printf("Arquivo %2d recebido: %s\n\n", arq, char_buffer);
+                arq++;
+                if (totalArquivos - arq > 0) {
+                    printf("Faltam %2d arquivos a receber\n", totalArquivos - arq);
+                } else {
+                    printf("Foram recebidos todos os %d arquivos multiplos\n", totalArquivos);
+                    printf("Aguardando por encerramento de backup multiplo...\n\n");
+                }
+            }
+
+            //
+
+            enviaMensagem(0, 0, MEN_TIPO_ACK, NULL);
+        break;
+
+        case (MEN_TIPO_BACKUP_MULT) :
+            printf("Tipo: Inicio de backup para multiplos arquivos\n");
+            mult = 1;
+            totalArquivos = (int)*men_recebida.dados;
+            arq = 1;
+
+            if (totalArquivos < 0) {
+                fprintf(stderr, "ERRO: total de arquivos a realizar backup precisa ser maior que zero\n");
+                enviaMensagem(0, 0, MEN_TIPO_ERRO, NULL);
+                return;
+            }
 
             enviaMensagem(0, 0, MEN_TIPO_ACK, NULL);
         break;
 
         case (MEN_TIPO_RECUPERA_1) :
             strcpy(tipoDeAcesso, "r");
-
-            enviaMensagem(0, 0, MEN_TIPO_ACK, NULL);
-        break;
-
-        case (MEN_TIPO_BACKUP_MULT) :
-            strcpy(tipoDeAcesso, "w");
 
             enviaMensagem(0, 0, MEN_TIPO_ACK, NULL);
         break;
@@ -94,7 +122,18 @@ void trata_mensagem_recebida() {
         break;
 
         case (MEN_TIPO_FIM_MULT) :
-            enviaMensagem(0, 0, MEN_TIPO_ACK, NULL);
+            printf("Tipo: Fim de backup multiplo\n");
+
+            if (totalArquivos - arq > 0) {
+                fprintf(stderr, "ERRO: Houve inconsistencia nos arquivos recebidos e alguns nao foram processados\n");
+                enviaMensagem(0, 0, MEN_TIPO_ERRO, NULL);
+            } else {
+                enviaMensagem(0, 0, MEN_TIPO_ACK, NULL);
+            }
+
+            mult = 0;
+            totalArquivos = 0;
+            arq = 0;
         break;
 
         //
