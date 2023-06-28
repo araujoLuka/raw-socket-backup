@@ -140,7 +140,6 @@ int recebeMensagem() {
 
     //
     
-    fprintf(stderr, "DEBUG: Mensagem recebida com sucesso\n");
     return 1;
 
 }

@@ -18,6 +18,7 @@ int recupera = 0;
 //=====================================================
 
 
+void debug(){}
 
 
 // 
@@ -88,6 +89,7 @@ void trata_mensagem_recebida() {
         break;
 
         case (MEN_TIPO_RECUPERA_1) :
+            debug();
             strcpy(tipoDeAcesso, "r");
 
             strcpy((char*) nome, (char*) men_recebida.dados);
@@ -100,25 +102,40 @@ void trata_mensagem_recebida() {
                 return;
             }
 
-            if (!conversaPadrao(strlen(nome), 0, MEN_TIPO_RECUPERA_NOME, (unsigned char*)nome)) {
-                return;
-            }
+            printf("DEBUG: enviando RECUPERA_NOME\n");
+            enviaMensagem(strlen(nome), 0, MEN_TIPO_RECUPERA_NOME, (unsigned char*)nome);
 
-            int i = 0;
+            printf("DEBUG: enviando DADOS\n");
+            int i = 0, tipoResposta;
             while(fgets((char*)char_buffer, 63, arquivoAberto) != NULL) {
-                if (!conversaPadrao(strlen((char*)char_buffer), i, MEN_TIPO_DADOS, (unsigned char*)char_buffer)) {
+                recebeMensagem();
+                tipoResposta = obtemTipoMensagem(men_recebida.tamanho_sequencia_tipo);
+                if (tipoResposta == MEN_TIPO_NACK) {
+                    printf("ERRO: Recebido NACK\n");
+                    return;
+                } else if (tipoResposta == MEN_TIPO_ERRO) {
+                    printf("ERRO: Recebido codigo de erro\n");
                     return;
                 }
 
+                enviaMensagem(sizeof(char_buffer), i, MEN_TIPO_DADOS, (unsigned char*) char_buffer);
                 if (++i >= 63)
                     i = 0;
             }
 
-            //
-
-            if (!conversaPadrao(0, 0, MEN_TIPO_FIM_ARQUIVO, NULL)) {
+            recebeMensagem();
+            tipoResposta = obtemTipoMensagem(men_recebida.tamanho_sequencia_tipo);
+            if (tipoResposta == MEN_TIPO_NACK) {
+                printf("ERRO: Recebido NACK\n");
+                return;
+            } else if (tipoResposta == MEN_TIPO_ERRO) {
+                printf("ERRO: Recebido codigo de erro\n");
                 return;
             }
+
+            printf("DEBUG: enviando FIM_ARQUIVO\n");
+            enviaMensagem(0, 0, MEN_TIPO_FIM_ARQUIVO, NULL);
+            recebeMensagem();
         break;
 
         case (MEN_TIPO_RECUPERA_MULT) :
@@ -237,7 +254,7 @@ int enviarArquivo () {
 
     //
 
-    if (!conversaPadrao(strlen((char*)nome), 0, MEN_TIPO_BACKUP_1, nome)) {
+    if (!conversaPadrao(strlen((char*)nome), 0, MEN_TIPO_BACKUP_1, nome)) { 
         return -2;
     }
 
@@ -338,6 +355,8 @@ void envia_proxima_mensagem() {
 
             if (recupera == 1) {
                 fprintf(stderr, "ERRO: Falha ao recuperar arquivo\n");
+                recupera = 0;
+                return;
             }
 
             printf("Arquivo %s restaurado com sucesso!\n", nome);
