@@ -283,7 +283,7 @@ int enviarArquivo () {
 //
 void envia_proxima_mensagem() {
     int totalArquivos = 0;
-    char nome[64];
+    unsigned char nome[64];
 
     printf("Escolha o que fazer:\n");
     printf("(1) Backup 1 arquivo\n");
@@ -338,7 +338,7 @@ void envia_proxima_mensagem() {
             scanf("%s", nome);
 
             // pergunta se existe na outra maquina
-            if (!conversaPadrao(strlen(nome), 0, MEN_TIPO_RECUPERA_1, (unsigned char *)nome)) {
+            if (!conversaPadrao(strlen((char *)nome), 0, MEN_TIPO_RECUPERA_1, nome)) {
                 if (obtemTipoMensagem(men_recebida.tamanho_sequencia_tipo) == MEN_TIPO_ERRO) {
                     fprintf(stderr, "ERRO: arquivo solicitado nao existe no servidor\n");
                 }
