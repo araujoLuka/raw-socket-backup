@@ -196,7 +196,7 @@ int enviarArquivo () {
 
     printf("%d\n", size);
 
-    while(!feof(arquivo_backup)) {
+    for(i = 0; i < size / 63; i++) {
 
         fgets((char*)dados, 63, arquivo_backup);
 
