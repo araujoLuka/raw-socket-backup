@@ -161,6 +161,7 @@ int conversaPadrao(int tam, int sequencia, int tipo, unsigned char* dados) {
 
         if (recebeMensagem()) {
             printf("DEBUG: Recebido resposta do servidor\n");
+            paraAlarme();
 
             tipoResposta = obtemTipoMensagem(men_recebida.tamanho_sequencia_tipo);
             if (tipoResposta == MEN_TIPO_NACK) {
@@ -170,7 +171,6 @@ int conversaPadrao(int tam, int sequencia, int tipo, unsigned char* dados) {
                 printf("ERRO: Recebido codigo de erro\n");
                 return 0;
             }
-            paraAlarme();
             return 1;
         }
 
