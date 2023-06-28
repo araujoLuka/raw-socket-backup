@@ -92,6 +92,7 @@ void trata_mensagem_recebida() {
             debug();
             strcpy(tipoDeAcesso, "r");
 
+            nome[0] = '\0';
             strcpy((char*) nome, (char*) men_recebida.dados);
             printf("Dados: Nome de arquivo recebido %s\n", nome);
 
