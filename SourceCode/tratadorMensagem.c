@@ -354,10 +354,17 @@ void envia_proxima_mensagem() {
         break;
 
         case (5) :
-            // manda uma mensagem que vamos mudar o diretorio
-            // a mensagem contem o nome do novo diretorio nos dados 63 letras
-            // espera uma mensagem de retorno caso deu certo ou tem erro
-            // erros: diretorio nao existe, nao eh diretorio e arquivo
+            printf("Qual o novo dir no servidor: ");
+            scanf("%s", nome);
+
+            // faz o pedido para mudar dir
+            // nao fizemos condicao de erro ent n precisa se preocupar
+            if (!conversaPadrao(strlen((char *)nome), 0, MEN_TIPO_MUDAR_DIR, nome)) {
+                fprintf(stderr, "ERRO: ao mudar diretorio do servidor\n");
+                return;
+            }
+
+            // erros TODO: diretorio nao existe, nao eh diretorio e arquivo
         break;
 
         case (6) :
