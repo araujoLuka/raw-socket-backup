@@ -10,6 +10,7 @@ extern mensagem men_recebida;
 extern mensagem men_enviada;
 
 FILE* arquivoAberto = NULL;
+char file_path[100];
 char tipoDeAcesso[3];
     
 int mult = 0, totalArquivos = 0, arq = 0;
@@ -60,7 +61,12 @@ void trata_mensagem_recebida() {
 
             //
 
-            arquivoAberto = fopen((char*) nome, tipoDeAcesso);
+            strcpy(file_path, path_inf.diretorio_atual);
+            strcat(file_path, nome);
+
+            //
+
+            arquivoAberto = fopen(file_path, tipoDeAcesso);
             if (arquivoAberto == NULL) {
                 fprintf(stderr, "ERRO: Falha ao abrir arquivo\n");
                 enviaMensagem(0, 0, MEN_TIPO_ERRO, NULL);
@@ -94,7 +100,14 @@ void trata_mensagem_recebida() {
             strcpy((char*) nome, (char*) men_recebida.dados);
             printf("Dados: Nome de arquivo para ser recuperado %s\n", nome);
 
-            arquivoAberto = fopen((char *)men_recebida.dados, tipoDeAcesso);
+            //
+
+            strcpy(file_path, path_inf.diretorio_atual);
+            strcat(file_path, nome);
+            
+            //
+
+            arquivoAberto = fopen(file_path, tipoDeAcesso);
             if (arquivoAberto == NULL) {
                 fprintf(stderr, "ERRO: arquivo solicitado nao existe no servidor\n");
                 enviaMensagem(0, 0, MEN_TIPO_ERRO, NULL);
