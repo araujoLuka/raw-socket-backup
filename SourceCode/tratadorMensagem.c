@@ -32,47 +32,11 @@ void trata_mensagem_recebida() {
     //
 
     switch(initial_message) {
-        case (MEM_TIPO_BACKUP_1) :
+        case (MEN_TIPO_BACKUP_1) :
+            printf("Tipo: Inicio de backup para 1 arquivo\n");
             strcpy(tipoDeAcesso, "w");
 
-            enviaMensagem(0, 0, MEM_TIPO_ACK, NULL);
-        break;
-
-        case (MEM_TIPO_RECUPERA_1) :
-            strcpy(tipoDeAcesso, "r");
-
-            enviaMensagem(0, 0, MEM_TIPO_ACK, NULL);
-        break;
-
-        case (MEM_TIPO_BACKUP_MULT) :
-            strcpy(tipoDeAcesso, "w");
-
-            enviaMensagem(0, 0, MEM_TIPO_ACK, NULL);
-        break;
-
-        case (MEM_TIPO_RECUPERA_MULT) :
-            strcpy(tipoDeAcesso, "r");
-
-            enviaMensagem(0, 0, MEM_TIPO_ACK, NULL);
-        break;
-
-        //
-
-        case (MEM_TIPO_FIM_ARQUIVO) :
-
-            fclose(arquivoAberto);
-            
-            enviaMensagem(0, 0, MEM_TIPO_ACK, NULL);
-
-        break;
-
-        case (MEM_TIPO_FIM_MULT) :
-            enviaMensagem(0, 0, MEM_TIPO_ACK, NULL);
-        break;
-
-        //
-
-        case (MEM_TIPO_NOME_ARQUIVO) :
+            printf("Dados: Nome de arquivo recebido %s\n", men_recebida.dados);
             strcpy((char*) char_buffer, (char*) men_recebida.dados);
             printf("arquivo: %s\n\n", char_buffer);
 
@@ -80,29 +44,69 @@ void trata_mensagem_recebida() {
 
             arquivoAberto = fopen((char*) char_buffer, tipoDeAcesso);
             if (arquivoAberto == NULL) {
-                enviaMensagem(0, 0, MEM_TIPO_ERRO, NULL);
+                enviaMensagem(0, 0, MEN_TIPO_ERRO, NULL);
                 fprintf(stderr, "ERRO ao abrir arquivo");
                 return;
             }
 
             //
 
-            enviaMensagem(0, 0, MEM_TIPO_ACK, NULL);
+            enviaMensagem(0, 0, MEN_TIPO_ACK, NULL);
+        break;
+
+        case (MEN_TIPO_RECUPERA_1) :
+            strcpy(tipoDeAcesso, "r");
+
+            enviaMensagem(0, 0, MEN_TIPO_ACK, NULL);
+        break;
+
+        case (MEN_TIPO_BACKUP_MULT) :
+            strcpy(tipoDeAcesso, "w");
+
+            enviaMensagem(0, 0, MEN_TIPO_ACK, NULL);
+        break;
+
+        case (MEN_TIPO_RECUPERA_MULT) :
+            strcpy(tipoDeAcesso, "r");
+
+            enviaMensagem(0, 0, MEN_TIPO_ACK, NULL);
+        break;
+
+        //
+
+        case (MEN_TIPO_FIM_ARQUIVO) :
+
+            fclose(arquivoAberto);
+            
+            enviaMensagem(0, 0, MEN_TIPO_ACK, NULL);
+
+        break;
+
+        case (MEN_TIPO_FIM_MULT) :
+            enviaMensagem(0, 0, MEN_TIPO_ACK, NULL);
+        break;
+
+        //
+
+        case (MEN_TIPO_RECUPERA_ARQUIVO) :
+            // recebe o nome de um arquivo para ser recuperado
+            // responde com o arquivo
+
         break;
 
 
-        case (MEM_TIPO_DADOS) :
+        case (MEN_TIPO_DADOS) :
 
             strcpy((char*) char_buffer, (char*) men_recebida.dados);
 
             printf("dados: %s\n\n", char_buffer);
             fprintf(arquivoAberto, "%s", (char*)char_buffer);
             
-            enviaMensagem(0, 0, MEM_TIPO_ACK, NULL);
+            enviaMensagem(0, 0, MEN_TIPO_ACK, NULL);
 
         break;
 
-        case (MEM_TIPO_ENCERRADO) :
+        case (MEN_TIPO_ENCERRADO) :
             // mensagem que deve ser encerrado o programa, apenas sai
             // sem enviar nada nem processar nada
 
@@ -124,7 +128,7 @@ void envia_proxima_mensagem() {
 
     //
 
-    int input;
+    int input, i;
     scanf("%d", &input);
 
     //
@@ -138,13 +142,7 @@ void envia_proxima_mensagem() {
 
             //
 
-            if (!conversaPadrao(0, 0, MEM_TIPO_BACKUP_1, NULL)) {
-                return;
-            }
-
-            //
-
-            if (!conversaPadrao(strlen((char*)nome), 0, MEM_TIPO_NOME_ARQUIVO, nome)) {
+            if (!conversaPadrao(strlen((char*)nome), 0, MEN_TIPO_BACKUP_1, nome)) {
                 return;
             }
 
@@ -152,6 +150,7 @@ void envia_proxima_mensagem() {
 
             unsigned char dados[64];
             FILE* arquivo_backup = fopen((char*)nome, "r");
+            i = 0;
 
             while(!feof(arquivo_backup)) {
 
@@ -159,14 +158,17 @@ void envia_proxima_mensagem() {
 
                 //
 
-                if (!conversaPadrao(strlen((char*)dados), 0, MEM_TIPO_DADOS, dados)) {
+                if (!conversaPadrao(strlen((char*)dados), i, MEN_TIPO_DADOS, dados)) {
                     return;
                 }
+
+                if (++i >= 63)
+                    i = 0;
             }
 
             //
 
-            if (!conversaPadrao(0, 0, MEM_TIPO_FIM_ARQUIVO, NULL)) {
+            if (!conversaPadrao(0, 0, MEN_TIPO_FIM_ARQUIVO, NULL)) {
                 return;
             }
         break;
