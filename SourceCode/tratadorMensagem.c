@@ -21,7 +21,7 @@ int mult = 0, totalArquivos = 0, arq = 0;
 // 
 void trata_mensagem_recebida() {
     int initial_message;
-    unsigned char char_buffer[64];
+    char char_buffer[64];
 
     //
 
@@ -53,6 +53,7 @@ void trata_mensagem_recebida() {
 
             strcpy((char*) char_buffer, (char*) men_recebida.dados);
             printf("Dados: Nome de arquivo recebido %s\n", char_buffer);
+            printf("Dados: Nome de arquivo recebido %s\n", men_recebida.dados);
 
             //
 
@@ -124,16 +125,13 @@ void trata_mensagem_recebida() {
         case (MEN_TIPO_FIM_MULT) :
             printf("Tipo: Fim de backup multiplo\n");
 
-            if (totalArquivos - arq > 0) {
-                fprintf(stderr, "ERRO: Houve inconsistencia nos arquivos recebidos e alguns nao foram processados\n");
-                enviaMensagem(0, 0, MEN_TIPO_ERRO, NULL);
-            } else {
-                enviaMensagem(0, 0, MEN_TIPO_ACK, NULL);
-            }
+            printf("Relatorio: Recebido %d arquivos de %d possiveis\n", arq, totalArquivos);
 
             mult = 0;
             totalArquivos = 0;
             arq = 0;
+
+            enviaMensagem(0, 0, MEN_TIPO_ACK, NULL);
         break;
 
         //
@@ -191,6 +189,12 @@ int enviarArquivo () {
     }
 
     //
+    
+    fseek(arquivo_backup, 0L, SEEK_END);
+    int size = ftell(arquivo_backup);
+    fseek(arquivo_backup, 0L, SEEK_SET);
+
+    printf("%d\n", size);
 
     while(!feof(arquivo_backup)) {
 
