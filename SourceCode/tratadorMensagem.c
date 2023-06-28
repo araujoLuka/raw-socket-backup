@@ -194,6 +194,16 @@ void trata_mensagem_recebida() {
             enviaMensagem(0, 0, MEN_TIPO_ACK, NULL);
 
         break;
+        
+
+        case (MEN_TIPO_MUDAR_DIR) :
+            strcpy(path_inf.diretorio_atual, (char*) men_recebida.dados);
+
+            printf("novo dir: %s\n\n", path_inf.diretorio_atual);
+            
+            enviaMensagem(0, 0, MEN_TIPO_ACK, NULL);
+        break;
+        
 
         case (MEN_TIPO_ENCERRADO) :
             // mensagem que deve ser encerrado o programa, apenas sai
