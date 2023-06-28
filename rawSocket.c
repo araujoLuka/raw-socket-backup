@@ -85,6 +85,7 @@ void connectionServer() {
                 send(rs, "ACK", 80, 0);
             }
         }
+        nbytes = 0;
 
         sleep(1);
 	}
@@ -100,7 +101,7 @@ void connectionClient() {
 
     while(1) {
         printf("Tip a message to send: ");
-        scanf("%s", buffer);
+        scanf("%s\n", buffer);
         
         size = strlen(buffer);
         if (size < 80)
@@ -123,6 +124,7 @@ void connectionClient() {
                 printf("Received %s from server\n", buffer);
             }
         }
+        nbytes = 0;
 
         sleep(1);
 	}
