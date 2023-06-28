@@ -48,8 +48,8 @@ void trata_mensagem_recebida() {
         case (MEN_TIPO_BACKUP_1) :
             if (mult == 0) {
                 printf("Tipo: Inicio de backup para 1 arquivo\n");
-                strcpy(tipoDeAcesso, "w");
             }
+            strcpy(tipoDeAcesso, "w");
 
             strcpy((char*) char_buffer, (char*) men_recebida.dados);
             printf("Dados: Nome de arquivo recebido %s\n", char_buffer);
@@ -58,7 +58,7 @@ void trata_mensagem_recebida() {
 
             arquivoAberto = fopen((char*) char_buffer, tipoDeAcesso);
             if (arquivoAberto == NULL) {
-                fprintf(stderr, "ERRO: Falha ao abrir arquivo");
+                fprintf(stderr, "ERRO: Falha ao abrir arquivo\n");
                 enviaMensagem(0, 0, MEN_TIPO_ERRO, NULL);
                 return;
             }
