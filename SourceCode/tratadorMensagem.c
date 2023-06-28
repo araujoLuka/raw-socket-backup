@@ -13,6 +13,7 @@ FILE* arquivoAberto;
 char tipoDeAcesso[3];
     
 int mult = 0, totalArquivos = 0, arq = 0;
+int recupera = 0;
 
 //=====================================================
 
@@ -126,6 +127,8 @@ void trata_mensagem_recebida() {
                     printf("Aguardando por encerramento de backup multiplo...\n\n");
                 }
             }
+            
+            recupera = 0;
             
             enviaMensagem(0, 0, MEN_TIPO_ACK, NULL);
 
@@ -306,11 +309,17 @@ void envia_proxima_mensagem() {
             enviaMensagem(0, 0, MEN_TIPO_ACK, NULL);
 
             // se existe, começa a receber
-            trata_mensagem_recebida();
 
-            // recebe o titulo salvando em uma variavel
-            // vai aos poucos preenchendo o arquivo
-            // ate receber um fim de arquivo
+            recupera = 1;
+            while (recupera && obtemTipoMensagem(men_recebida.tamanho_sequencia_tipo) != MEN_TIPO_NACK) {
+                trata_mensagem_recebida();
+            }
+
+            if (recupera == 1) {
+                fprintf(stderr, "ERRO: Falha ao recuperar arquivo\n");
+            }
+
+            printf("Arquivo %s restaurado com sucesso!\n", nome);
         break;
 
         case (4) :
