@@ -27,6 +27,17 @@ void trata_mensagem_recebida() {
     recebeMensagem();
 
     fprintf(stderr, "DEBUG: Mensagem recebida!\n");
+
+
+    // analise da paridade vertical, se tiver errado continua no loop
+    char paridade = geraParidade(men_recebida.dados, 
+                                 obtemTamMensagem(men_recebida.tamanho_sequencia_tipo));
+    if (men_recebida.paridade_vertical != paridade) {
+        fprintf(stderr, "DEBUGG Mensagem recebida, mas paridade errada\n");
+        enviaMensagem(0, 0, MEN_TIPO_NACK, NULL);
+        return;
+    }
+
     initial_message = obtemTipoMensagem(men_recebida.tamanho_sequencia_tipo);
 
     //

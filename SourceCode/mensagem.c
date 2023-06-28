@@ -104,7 +104,7 @@ void enviaMensagem(int tam, int sequencia, int tipo, unsigned char* dados) {
 // caso de timeout retorna 0
 int recebeMensagem() {
 	int nbytes = 0;
-	char buffer[sizeof(mensagem)], paridade;
+	char buffer[sizeof(mensagem)];
 	mensagem men;
 
     //
@@ -125,13 +125,6 @@ int recebeMensagem() {
             fprintf(stderr, "%d\n", men.marcador_ini);
 			if (men.marcador_ini != MARCADOR_INIT) {
                 fprintf(stderr, "DEBUGG Mensage recebida, mas nao possui marcador de inicio\n");
-				continue;
-            }
-
-			// analise da paridade vertical, se tiver errado continua no loop
-			paridade = geraParidade(men.dados, obtemTamMensagem(men.tamanho_sequencia_tipo));
-			if (men.paridade_vertical != paridade) {
-                fprintf(stderr, "DEBUGG Mensagem recebida, mas paridade errada\n");
 				continue;
             }
 
