@@ -9,7 +9,10 @@ tratador global_info;
 extern mensagem men_recebida;
 extern mensagem men_enviada;
 
+extern dirHandler path_inf;
+
 FILE* arquivoAberto = NULL;
+char file_path[100];
 char tipoDeAcesso[3];
     
 int mult = 0, totalArquivos = 0, arq = 0;
@@ -55,6 +58,7 @@ void trata_mensagem_recebida() {
             }
             strcpy(tipoDeAcesso, "w");
 
+            strcpy(file_path, path_inf.diretorio_atual);
             strcpy((char*) nome, (char*) men_recebida.dados);
             printf("Dados: Nome de arquivo recebido %s\n", nome);
 
@@ -91,6 +95,7 @@ void trata_mensagem_recebida() {
             debug();
             strcpy(tipoDeAcesso, "r");
 
+            strcpy(file_path, path_inf.diretorio_atual);
             strcpy((char*) nome, (char*) men_recebida.dados);
             printf("Dados: Nome de arquivo para ser recuperado %s\n", nome);
 
@@ -354,10 +359,17 @@ void envia_proxima_mensagem() {
         break;
 
         case (5) :
-            // manda uma mensagem que vamos mudar o diretorio
-            // a mensagem contem o nome do novo diretorio nos dados 63 letras
-            // espera uma mensagem de retorno caso deu certo ou tem erro
-            // erros: diretorio nao existe, nao eh diretorio e arquivo
+            printf("Qual o novo dir no servidor: ");
+            scanf("%s", nome);
+
+            // faz o pedido para mudar dir
+            // nao fizemos condicao de erro ent n precisa se preocupar
+            if (!conversaPadrao(strlen((char *)nome), 0, MEN_TIPO_MUDAR_DIR, nome)) {
+                fprintf(stderr, "ERRO: ao mudar diretorio do servidor\n");
+                return;
+            }
+
+            // erros todo: diretorio nao existe, nao eh diretorio e arquivo
         break;
 
         case (6) :
