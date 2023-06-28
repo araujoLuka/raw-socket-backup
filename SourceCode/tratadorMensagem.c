@@ -90,14 +90,35 @@ void trata_mensagem_recebida() {
         case (MEN_TIPO_RECUPERA_1) :
             strcpy(tipoDeAcesso, "r");
 
-            FILE *f = fopen((char *)men_recebida.dados, tipoDeAcesso);
-            if (f == NULL) {
+            strcpy((char*) nome, (char*) men_recebida.dados);
+            printf("Dados: Nome de arquivo recebido %s\n", nome);
+
+            arquivoAberto = fopen((char *)men_recebida.dados, tipoDeAcesso);
+            if (arquivoAberto == NULL) {
                 fprintf(stderr, "ERRO: arquivo solicitado nao existe no servidor\n");
                 enviaMensagem(0, 0, MEN_TIPO_ERRO, NULL);
                 return;
             }
 
-            enviaMensagem(0, 0, MEN_TIPO_ACK, NULL);
+            if (!conversaPadrao(strlen(nome), 0, MEN_TIPO_RECUPERA_NOME, (unsigned char*)nome)) {
+                return;
+            }
+
+            int i = 0;
+            while(fgets((char*)char_buffer, 63, arquivoAberto) != NULL) {
+                if (!conversaPadrao(strlen((char*)char_buffer), i, MEN_TIPO_DADOS, (unsigned char*)char_buffer)) {
+                    return;
+                }
+
+                if (++i >= 63)
+                    i = 0;
+            }
+
+            //
+
+            if (!conversaPadrao(0, 0, MEN_TIPO_FIM_ARQUIVO, NULL)) {
+                return;
+            }
         break;
 
         case (MEN_TIPO_RECUPERA_MULT) :
