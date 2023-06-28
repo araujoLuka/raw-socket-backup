@@ -1,0 +1,112 @@
+  proc-sys-fs-binfmt_misc.automount                                                        loaded active running   Arbitrary Executable File Formats File System Automount Point
+  sys-bus-pci-drivers-nvidia.device                                                        loaded active plugged   /sys/bus/pci/drivers/nvidia
+  sys-devices-pci0000:00-0000:00:01.0-0000:01:00.1-sound-card2-controlC2.device            loaded active plugged   /sys/devices/pci0000:00/0000:00:01.0/0000:01:00.1/sound/card2/controlC2
+  sys-devices-pci0000:00-0000:00:03.0-sound-card0-controlC0.device                         loaded active plugged   /sys/devices/pci0000:00/0000:00:03.0/sound/card0/controlC0
+  sys-devices-pci0000:00-0000:00:14.0-usb3-3\x2d1-3\x2d1:1.0-net-wlxd037456c908e.device    loaded active plugged   RTL8188EUS 802.11n Wireless Network Adapter
+  sys-devices-pci0000:00-0000:00:14.0-usb3-3\x2d3-3\x2d3:1.2-sound-card3-controlC3.device  loaded active plugged   0825
+  sys-devices-pci0000:00-0000:00:1b.0-sound-card1-controlC1.device                         loaded active plugged   /sys/devices/pci0000:00/0000:00:1b.0/sound/card1/controlC1
+  sys-devices-pci0000:00-0000:00:1c.3-0000:03:00.0-net-enp3s0.device                       loaded active plugged   RTL8111/8168/8411 PCI Express Gigabit Ethernet Controller (Motherboard (one of many))
+  sys-devices-pci0000:00-0000:00:1f.2-ata1-host0-target0:0:0-0:0:0:0-block-sda-sda1.device loaded active plugged   KINGSTON_SA400S37240G Recuperação
+  sys-devices-pci0000:00-0000:00:1f.2-ata1-host0-target0:0:0-0:0:0:0-block-sda-sda2.device loaded active plugged   KINGSTON_SA400S37240G EFI\x20system\x20partition
+  sys-devices-pci0000:00-0000:00:1f.2-ata1-host0-target0:0:0-0:0:0:0-block-sda-sda3.device loaded active plugged   KINGSTON_SA400S37240G Microsoft\x20reserved\x20partition
+  sys-devices-pci0000:00-0000:00:1f.2-ata1-host0-target0:0:0-0:0:0:0-block-sda-sda4.device loaded active plugged   KINGSTON_SA400S37240G SSD_Kingston
+  sys-devices-pci0000:00-0000:00:1f.2-ata1-host0-target0:0:0-0:0:0:0-block-sda-sda5.device loaded active plugged   KINGSTON_SA400S37240G Basic\x20data\x20partition
+  sys-devices-pci0000:00-0000:00:1f.2-ata1-host0-target0:0:0-0:0:0:0-block-sda.device      loaded active plugged   KINGSTON_SA400S37240G
+  sys-devices-pci0000:00-0000:00:1f.2-ata2-host1-target1:0:0-1:0:0:0-block-sdb-sdb1.device loaded active plugged   ST1000DM003-1SB10C
+  sys-devices-pci0000:00-0000:00:1f.2-ata2-host1-target1:0:0-1:0:0:0-block-sdb-sdb2.device loaded active plugged   ST1000DM003-1SB10C
+  sys-devices-pci0000:00-0000:00:1f.2-ata2-host1-target1:0:0-1:0:0:0-block-sdb.device      loaded active plugged   ST1000DM003-1SB10C
+  sys-devices-pci0000:00-0000:00:1f.2-ata5-host4-target4:0:0-4:0:0:0-block-sdc-sdc1.device loaded active plugged   WDC_WD10EZEX-00BN5A0 1
+  sys-devices-pci0000:00-0000:00:1f.2-ata5-host4-target4:0:0-4:0:0:0-block-sdc-sdc2.device loaded active plugged   WDC_WD10EZEX-00BN5A0 2
+  sys-devices-pci0000:00-0000:00:1f.2-ata5-host4-target4:0:0-4:0:0:0-block-sdc-sdc3.device loaded active plugged   WDC_WD10EZEX-00BN5A0 3
+  sys-devices-pci0000:00-0000:00:1f.2-ata5-host4-target4:0:0-4:0:0:0-block-sdc.device      loaded active plugged   WDC_WD10EZEX-00BN5A0
+  sys-devices-pci0000:00-0000:00:1f.2-ata6-host5-target5:0:0-5:0:0:0-block-sdd-sdd1.device loaded active plugged   ST500DM002-1BD142 1
+  sys-devices-pci0000:00-0000:00:1f.2-ata6-host5-target5:0:0-5:0:0:0-block-sdd.device      loaded active plugged   ST500DM002-1BD142
+  sys-devices-platform-serial8250-tty-ttyS1.device                                         loaded active plugged   /sys/devices/platform/serial8250/tty/ttyS1
+  sys-devices-platform-serial8250-tty-ttyS10.device                                        loaded active plugged   /sys/devices/platform/serial8250/tty/ttyS10
+  sys-devices-platform-serial8250-tty-ttyS11.device                                        loaded active plugged   /sys/devices/platform/serial8250/tty/ttyS11
+  sys-devices-platform-serial8250-tty-ttyS12.device                                        loaded active plugged   /sys/devices/platform/serial8250/tty/ttyS12
+  sys-devices-platform-serial8250-tty-ttyS13.device                                        loaded active plugged   /sys/devices/platform/serial8250/tty/ttyS13
+  sys-devices-platform-serial8250-tty-ttyS14.device                                        loaded active plugged   /sys/devices/platform/serial8250/tty/ttyS14
+  sys-devices-platform-serial8250-tty-ttyS15.device                                        loaded active plugged   /sys/devices/platform/serial8250/tty/ttyS15
+  sys-devices-platform-serial8250-tty-ttyS16.device                                        loaded active plugged   /sys/devices/platform/serial8250/tty/ttyS16
+  sys-devices-platform-serial8250-tty-ttyS17.device                                        loaded active plugged   /sys/devices/platform/serial8250/tty/ttyS17
+  sys-devices-platform-serial8250-tty-ttyS18.device                                        loaded active plugged   /sys/devices/platform/serial8250/tty/ttyS18
+  sys-devices-platform-serial8250-tty-ttyS19.device                                        loaded active plugged   /sys/devices/platform/serial8250/tty/ttyS19
+  sys-devices-platform-serial8250-tty-ttyS2.device                                         loaded active plugged   /sys/devices/platform/serial8250/tty/ttyS2
+  sys-devices-platform-serial8250-tty-ttyS20.device                                        loaded active plugged   /sys/devices/platform/serial8250/tty/ttyS20
+  sys-devices-platform-serial8250-tty-ttyS21.device                                        loaded active plugged   /sys/devices/platform/serial8250/tty/ttyS21
+  sys-devices-platform-serial8250-tty-ttyS22.device                                        loaded active plugged   /sys/devices/platform/serial8250/tty/ttyS22
+  sys-devices-platform-serial8250-tty-ttyS23.device                                        loaded active plugged   /sys/devices/platform/serial8250/tty/ttyS23
+  sys-devices-platform-serial8250-tty-ttyS24.device                                        loaded active plugged   /sys/devices/platform/serial8250/tty/ttyS24
+  sys-devices-platform-serial8250-tty-ttyS25.device                                        loaded active plugged   /sys/devices/platform/serial8250/tty/ttyS25
+  sys-devices-platform-serial8250-tty-ttyS26.device                                        loaded active plugged   /sys/devices/platform/serial8250/tty/ttyS26
+  sys-devices-platform-serial8250-tty-ttyS27.device                                        loaded active plugged   /sys/devices/platform/serial8250/tty/ttyS27
+  sys-devices-platform-serial8250-tty-ttyS28.device                                        loaded active plugged   /sys/devices/platform/serial8250/tty/ttyS28
+  sys-devices-platform-serial8250-tty-ttyS29.device                                        loaded active plugged   /sys/devices/platform/serial8250/tty/ttyS29
+  sys-devices-platform-serial8250-tty-ttyS3.device                                         loaded active plugged   /sys/devices/platform/serial8250/tty/ttyS3
+  sys-devices-platform-serial8250-tty-ttyS30.device                                        loaded active plugged   /sys/devices/platform/serial8250/tty/ttyS30
+  sys-devices-platform-serial8250-tty-ttyS31.device                                        loaded active plugged   /sys/devices/platform/serial8250/tty/ttyS31
+  sys-devices-platform-serial8250-tty-ttyS4.device                                         loaded active plugged   /sys/devices/platform/serial8250/tty/ttyS4
+  sys-devices-platform-serial8250-tty-ttyS5.device                                         loaded active plugged   /sys/devices/platform/serial8250/tty/ttyS5
+  sys-devices-platform-serial8250-tty-ttyS6.device                                         loaded active plugged   /sys/devices/platform/serial8250/tty/ttyS6
+  sys-devices-platform-serial8250-tty-ttyS7.device                                         loaded active plugged   /sys/devices/platform/serial8250/tty/ttyS7
+  sys-devices-platform-serial8250-tty-ttyS8.device                                         loaded active plugged   /sys/devices/platform/serial8250/tty/ttyS8
+  sys-devices-platform-serial8250-tty-ttyS9.device                                         loaded active plugged   /sys/devices/platform/serial8250/tty/ttyS9
+  sys-devices-pnp0-00:05-printer-lp0.device                                                loaded active plugged   /sys/devices/pnp0/00:05/printer/lp0
+  sys-devices-pnp0-00:07-tty-ttyS0.device                                                  loaded active plugged   /sys/devices/pnp0/00:07/tty/ttyS0
+  sys-devices-virtual-misc-rfkill.device                                                   loaded active plugged   /sys/devices/virtual/misc/rfkill
+  sys-devices-virtual-tty-ttyprintk.device                                                 loaded active plugged   /sys/devices/virtual/tty/ttyprintk
+  sys-module-configfs.device                                                               loaded active plugged   /sys/module/configfs
+  sys-module-fuse.device                                                                   loaded active plugged   /sys/module/fuse
+  sys-subsystem-net-devices-enp3s0.device                                                  loaded active plugged   RTL8111/8168/8411 PCI Express Gigabit Ethernet Controller (Motherboard (one of many))
+  sys-subsystem-net-devices-wlxd037456c908e.device                                         loaded active plugged   RTL8188EUS 802.11n Wireless Network Adapter
+  proc-sys-fs-binfmt_misc.mount                                                            loaded active mounted   Arbitrary Executable File Formats File System
+  run-credentials-systemd\x2dsysusers.service.mount                                        loaded active mounted   /run/credentials/systemd-sysusers.service
+  sys-fs-fuse-connections.mount                                                            loaded active mounted   FUSE Control File System
+  sys-kernel-config.mount                                                                  loaded active mounted   Kernel Configuration File System
+  sys-kernel-debug.mount                                                                   loaded active mounted   Kernel Debug File System
+  sys-kernel-tracing.mount                                                                 loaded active mounted   Kernel Trace File System
+  systemd-ask-password-plymouth.path                                                       loaded active waiting   Forward Password Requests to Plymouth Directory Watch
+  systemd-ask-password-wall.path                                                           loaded active waiting   Forward Password Requests to Wall Directory Watch
+  networkd-dispatcher.service                                                              loaded active running   Dispatcher daemon for systemd-networkd
+  rsyslog.service                                                                          loaded active running   System Logging Service
+  systemd-fsck@dev-disk-by\x2duuid-191D\x2dFCE8.service                                    loaded active exited    File System Check on /dev/disk/by-uuid/191D-FCE8
+  systemd-journal-flush.service                                                            loaded active exited    Flush Journal to Persistent Storage
+  systemd-journald.service                                                                 loaded active running   Journal Service
+  systemd-logind.service                                                                   loaded active running   User Login Management
+  systemd-modules-load.service                                                             loaded active exited    Load Kernel Modules
+  systemd-random-seed.service                                                              loaded active exited    Load/Save Random Seed
+  systemd-remount-fs.service                                                               loaded active exited    Remount Root and Kernel File Systems
+  systemd-resolved.service                                                                 loaded active running   Network Name Resolution
+  systemd-sysctl.service                                                                   loaded active exited    Apply Kernel Variables
+  systemd-sysusers.service                                                                 loaded active exited    Create System Users
+  systemd-timesyncd.service                                                                loaded active running   Network Time Synchronization
+  systemd-tmpfiles-setup-dev.service                                                       loaded active exited    Create Static Device Nodes in /dev
+  systemd-tmpfiles-setup.service                                                           loaded active exited    Create Volatile Files and Directories
+  systemd-udev-settle.service                                                              loaded active exited    Wait for udev To Complete Device Initialization
+  systemd-udev-trigger.service                                                             loaded active exited    Coldplug All udev Devices
+  systemd-udevd.service                                                                    loaded active running   Rule-based Manager for Device Events and Files
+  systemd-update-utmp.service                                                              loaded active exited    Record System Boot/Shutdown in UTMP
+  systemd-user-sessions.service                                                            loaded active exited    Permit User Sessions
+  ubuntu-system-adjustments.service                                                        loaded active exited    Ubuntu system adjustments
+  zfs-mount.service                                                                        loaded active exited    Mount ZFS filesystems
+  zfs-share.service                                                                        loaded active exited    ZFS file system shares
+  system-getty.slice                                                                       loaded active active    Slice /system/getty
+  system-modprobe.slice                                                                    loaded active active    Slice /system/modprobe
+  system-systemd\x2dcoredump.slice                                                         loaded active active    Slice /system/systemd-coredump
+  system-systemd\x2dfsck.slice                                                             loaded active active    Slice /system/systemd-fsck
+  system.slice                                                                             loaded active active    System Slice
+  syslog.socket                                                                            loaded active running   Syslog Socket
+  systemd-coredump.socket                                                                  loaded active listening Process Core Dump Socket
+  systemd-fsckd.socket                                                                     loaded active listening fsck to fsckd communication Socket
+  systemd-initctl.socket                                                                   loaded active listening initctl Compatibility Named Pipe
+  systemd-journald-audit.socket                                                            loaded active running   Journal Audit Socket
+  systemd-journald-dev-log.socket                                                          loaded active running   Journal Socket (/dev/log)
+  systemd-journald.socket                                                                  loaded active running   Journal Socket
+  systemd-rfkill.socket                                                                    loaded active listening Load/Save RF Kill Switch Status /dev/rfkill Watch
+  systemd-udevd-control.socket                                                             loaded active running   udev Control Socket
+  systemd-udevd-kernel.socket                                                              loaded active running   udev Kernel Socket
+  sysinit.target                                                                           loaded active active    System Initialization
+  e2scrub_all.timer                                                                        loaded active waiting   Periodic ext4 Online Metadata Check for All Filesystems
+  systemd-tmpfiles-clean.timer                                                             loaded active waiting   Daily Cleanup of Temporary Directories
+To show all installed unit files use 'systemctl list-unit-files'.
