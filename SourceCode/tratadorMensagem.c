@@ -92,9 +92,8 @@ void trata_mensagem_recebida() {
             debug();
             strcpy(tipoDeAcesso, "r");
 
-            nome[0] = '\0';
             strcpy((char*) nome, (char*) men_recebida.dados);
-            printf("Dados: Nome de arquivo recebido %s\n", nome);
+            printf("Dados: Nome de arquivo para ser recuperado %s\n", nome);
 
             arquivoAberto = fopen((char *)men_recebida.dados, tipoDeAcesso);
             if (arquivoAberto == NULL) {
@@ -158,9 +157,7 @@ void trata_mensagem_recebida() {
         case (MEN_TIPO_RECUPERA_NOME) :
             // recebe o nome de um arquivo para ser recuperado
             // responde com o arquivo
-            if (mult == 0) {
-                printf("Tipo: Inicio de recuperacao para 1 arquivo\n");
-            }
+            printf("Tipo: Inicio de recuperacao para 1 arquivo\n");
             strcpy(tipoDeAcesso, "w");
 
             strcpy((char*) nome, (char*) men_recebida.dados);
@@ -312,12 +309,15 @@ void envia_proxima_mensagem() {
             scanf("%s", nome);
 
             // pergunta se existe na outra maquina
-            if (!conversaPadrao(strlen((char *)nome), 0, MEN_TIPO_RECUPERA_1, nome)) {
-                if (obtemTipoMensagem(men_recebida.tamanho_sequencia_tipo) == MEN_TIPO_ERRO) {
-                    fprintf(stderr, "ERRO: arquivo solicitado nao existe no servidor\n");
-                }
-                return;
-            }
+            enviaMensagem(strlen((char *)nome), 0, MEN_TIPO_RECUPERA_1, nome);
+            trata_mensagem_recebida();
+
+            // if (!conversaPadrao(strlen((char *)nome), 0, MEN_TIPO_RECUPERA_1, nome)) {
+            //     if (obtemTipoMensagem(men_recebida.tamanho_sequencia_tipo) == MEN_TIPO_ERRO) {
+            //         fprintf(stderr, "ERRO: arquivo solicitado nao existe no servidor\n");
+            //     }
+            //     return;
+            // }
 
             strcpy((char*)nome, (char*)men_recebida.dados);
             printf("Arquivo %s restaurado com sucesso!\n", nome);
