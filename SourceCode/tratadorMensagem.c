@@ -58,7 +58,7 @@ void trata_mensagem_recebida() {
             }
             strcpy(tipoDeAcesso, "w");
 
-            strcpy(file_path, path_inf.diretorio_atual);
+            strcpy((char*) nome, path_inf.diretorio_atual);
             strcat((char*) nome, (char*) men_recebida.dados);
             printf("Dados: Nome de arquivo recebido %s\n", nome);
 
@@ -95,7 +95,7 @@ void trata_mensagem_recebida() {
             debug();
             strcpy(tipoDeAcesso, "r");
 
-            strcpy(file_path, path_inf.diretorio_atual);
+            strcpy((char*) nome, path_inf.diretorio_atual);
             strcat((char*) nome, (char*) men_recebida.dados);
             printf("Dados: Nome de arquivo para ser recuperado %s\n", nome);
 
