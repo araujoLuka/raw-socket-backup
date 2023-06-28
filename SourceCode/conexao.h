@@ -9,6 +9,7 @@
 #include <arpa/inet.h>
 #include <linux/if_packet.h>
 
+#include "mensagem.h"
 
 
 // inicia a conexao

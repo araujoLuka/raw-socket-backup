@@ -36,15 +36,18 @@ int verificaInicio(unsigned char marcador) {
 // retorna um char como valor
 char geraParidade(unsigned char* valores, int tam) {
     char returning_val = 0;
+    fprintf(stderr, "gerando paridade\n");
 
     //
 
     for (int byte = 0; byte < tam; byte ++) {
+        fprintf(stderr, "byte atual%d: %d\n", byte, (int)valores[byte]);
         returning_val = returning_val ^ valores[byte];
     }
 
     //
 
+    fprintf(stderr, "paridade gerada: %d\n", returning_val);
     return returning_val;
 }
 

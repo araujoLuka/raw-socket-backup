@@ -1,4 +1,5 @@
 #include "../file_transfer.h"
+#include "mensagem.h"
 
 
 
@@ -81,8 +82,7 @@ void encerraConexao() {
 
     //
 
-    montaMensagem(0, 0, MEM_TIPO_ENCERRADO, NULL);
-    enviaMensagem();
+    enviaMensagem(0, 0, MEM_TIPO_ENCERRADO, NULL);
 
     //
 

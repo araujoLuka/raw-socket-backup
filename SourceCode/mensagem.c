@@ -82,7 +82,11 @@ void montaMensagem(int tam, int sequencia, int tipo, unsigned char* dados) {
 
 
 // envia a mensagem salva na variavel global para a outra maquina.
-void enviaMensagem() {
+void enviaMensagem(int tam, int sequencia, int tipo, unsigned char* dados) {
+    montaMensagem(tam, sequencia, tipo, dados);
+
+    //
+
     int nbytes = 0;
 
     nbytes = send(global_info.socket, (char*) &men_enviada, sizeof(mensagem), 0);
@@ -115,7 +119,7 @@ int recebeMensagem() {
 		if (nbytes > 0)
 		{
 			// copia o buffer para a struct mensagem temporaria
-			strcpy((char*) &men, buffer);
+			strcpy((char*) &men, buffer); // AI LUCAO, acho q eh meior copiar direto pra men_recebida, n precisa se preocupar em perder a original em caso de erro
 
 			// analise marcador de init, se nao tiver eh lixo
             fprintf(stderr, "%d\n", men.marcador_ini);
@@ -127,12 +131,12 @@ int recebeMensagem() {
 			// analise da paridade vertical, se tiver errado continua no loop
 			paridade = geraParidade(men.dados, obtemTamMensagem(men.tamanho_sequencia_tipo));
 			if (men.paridade_vertical != paridade) {
-                fprintf(stderr, "DEBUGG: paridade falhada\n");
+                fprintf(stderr, "DEBUGG Mensagem recebida, mas paridade errada\n");
 				continue;
             }
 
 			// copia dados para men_recebida e sai do loop
-			men_recebida = men;
+			men_recebida = men; // AI LUCAO, acho q eh meior copiar direto pra men_recebida, n precisa se preocupar em perder a original em caso de erro
 			mensagem_recebida = 1;
 		}
     }
@@ -145,6 +149,7 @@ int recebeMensagem() {
 
     //
     
+    fprintf(stderr, "DEBUGG Mensagem recebida com sucesso\n");
     return 1;
 
 }
@@ -154,7 +159,7 @@ int recebeMensagem() {
 
 // procedimento para conversa entre cliente e servidor
 // controla o limite de timeouts
-int conversaPadrao() {
+int conversaPadrao(int tam, int sequencia, int tipo, unsigned char* dados) {
     iniciaAlarme();
 
     //
@@ -163,12 +168,14 @@ int conversaPadrao() {
         timeout_info.alarm_check = 0;
 
         printf("DEBUG: Enviando mensagem para servidor...\n");
-        enviaMensagem();
+        enviaMensagem(tam, sequencia, tipo, dados);
+
         if (recebeMensagem()) {
             printf("DEBUG: Recebido resposta do servidor\n");
             paraAlarme();
             return 1;
         }
+
         printf("DEBUG: Falha ao receber resposta do servidor\n");
     }
 
