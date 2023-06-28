@@ -144,7 +144,7 @@ void envia_proxima_mensagem() {
             FILE* arquivo_backup = fopen((char*)nome, "r");
 
             if (!arquivo_backup) {
-                fprintf(stderr, "ERRO: Arquivo '%s' nao existente!", nome);
+                fprintf(stderr, "ERRO: Arquivo '%s' nao existente!\n\n", nome);
                 return;
             }
 
