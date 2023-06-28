@@ -157,6 +157,7 @@ int conversaPadrao(int tam, int sequencia, int tipo, unsigned char* dados) {
         timeout_info.alarm_check = 0;
 
         printf("DEBUG: Enviando mensagem para servidor...\n");
+        printf("DEBUG: Dados: %s\n", dados);
         enviaMensagem(tam, sequencia, tipo, dados);
 
         if (recebeMensagem()) {
