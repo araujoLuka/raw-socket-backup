@@ -217,6 +217,12 @@ void trata_mensagem_recebida() {
 
         case (MEN_TIPO_DADOS) :
 
+            if (arquivoAberto == NULL) {
+                fprintf(stderr, "ERRO: nenhum arquivo aberto para gravar dados\n");
+                enviaMensagem(0, 0, MEN_TIPO_NACK, NULL);
+                return;
+            }
+
             strcpy((char*) char_buffer, (char*) men_recebida.dados);
 
             printf("dados: %s\n\n", char_buffer);
