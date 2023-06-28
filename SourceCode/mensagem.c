@@ -125,7 +125,7 @@ int recebeMensagem() {
 
 			// copia dados para men_recebida e sai do loop
             tam = obtemTamMensagem(men.tamanho_sequencia_tipo);
-            men.dados[tam+1] = '\0';
+            men.dados[tam] = '\0';
 
 			men_recebida = men;
 			mensagem_recebida = 1;

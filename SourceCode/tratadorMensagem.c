@@ -9,7 +9,7 @@ tratador global_info;
 extern mensagem men_recebida;
 extern mensagem men_enviada;
 
-FILE* arquivoAberto;
+FILE* arquivoAberto = NULL;
 char tipoDeAcesso[3];
     
 int mult = 0, totalArquivos = 0, arq = 0;
@@ -150,6 +150,7 @@ void trata_mensagem_recebida() {
         case (MEN_TIPO_FIM_ARQUIVO) :
 
             fclose(arquivoAberto);
+            arquivoAberto = NULL;
 
             //
             
