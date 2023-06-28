@@ -190,18 +190,7 @@ int enviarArquivo () {
 
     //
     
-    fseek(arquivo_backup, 0L, SEEK_END);
-    int size = ftell(arquivo_backup);
-    fseek(arquivo_backup, 0L, SEEK_SET);
-
-    printf("%d\n", size);
-
-    for(i = 0; i < size / 63; i++) {
-
-        fgets((char*)dados, 63, arquivo_backup);
-
-        //
-
+    while(fgets((char*)dados, 63, arquivo_backup) != NULL) {
         if (!conversaPadrao(strlen((char*)dados), i, MEN_TIPO_DADOS, dados)) {
             return -3;
         }
