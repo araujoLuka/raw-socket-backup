@@ -82,7 +82,7 @@ void encerraConexao() {
 
     //
 
-    enviaMensagem(0, 0, MEM_TIPO_ENCERRADO, NULL);
+    enviaMensagem(0, 0, MEN_TIPO_ENCERRADO, NULL);
 
     //
 
