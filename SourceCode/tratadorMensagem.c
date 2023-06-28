@@ -321,6 +321,8 @@ void envia_proxima_mensagem() {
 
             strcpy((char*)nome, (char*)men_recebida.dados);
             printf("Arquivo %s restaurado com sucesso!\n", nome);
+
+            enviaMensagem(0, 0, MEN_TIPO_FIM_ARQUIVO, NULL);
         break;
 
         case (4) :
