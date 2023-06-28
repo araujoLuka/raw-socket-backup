@@ -169,10 +169,57 @@ void trata_mensagem_recebida() {
 
 //----------------------------------------------------------------
 
+int enviarArquivo () {
+    int i = 0;
+    unsigned char nome[64];
+    unsigned char dados[64];
+
+    printf("Qual arquivo deseja enviar: ");
+    scanf("%s", nome);
+
+    FILE* arquivo_backup = fopen((char*)nome, "r");
+
+    if (!arquivo_backup) {
+        fprintf(stderr, "ERRO: Arquivo '%s' nao existente!\n\n", nome);
+        return -1;
+    }
+
+    //
+
+    if (!conversaPadrao(strlen((char*)nome), 0, MEN_TIPO_BACKUP_1, nome)) {
+        return -2;
+    }
+
+    //
+
+    while(!feof(arquivo_backup)) {
+
+        fgets((char*)dados, 63, arquivo_backup);
+
+        //
+
+        if (!conversaPadrao(strlen((char*)dados), i, MEN_TIPO_DADOS, dados)) {
+            return -3;
+        }
+
+        if (++i >= 63)
+            i = 0;
+    }
+
+    //
+
+    if (!conversaPadrao(0, 0, MEN_TIPO_FIM_ARQUIVO, NULL)) {
+        return -4;
+    }
+
+    return 0;
+}
 
 
 //
 void envia_proxima_mensagem() {
+    int totalArquivos = 0;
+
     printf("Escolha oque fazer:\n");
     printf("(1) Backup 1 arquivo\n(2) Backup varios arquivo\n(3) Recupera 1 arquivo\n(4) Recupera varios arquivo\n(5) Muda Dir\n(6) Verifica arquivo\n(7) Encerra\n");
 
@@ -185,52 +232,33 @@ void envia_proxima_mensagem() {
 
     switch(input) {
         case (1) :
-            printf("qual arquivo:\n");
-
-            unsigned char nome[64];
-            unsigned char dados[64];
-            scanf("%s", nome);
-
-            FILE* arquivo_backup = fopen((char*)nome, "r");
-
-            if (!arquivo_backup) {
-                fprintf(stderr, "ERRO: Arquivo '%s' nao existente!\n\n", nome);
-                return;
-            }
-
-            //
-
-            if (!conversaPadrao(strlen((char*)nome), 0, MEN_TIPO_BACKUP_1, nome)) {
-                return;
-            }
-
-            //
-
-            i = 0;
-
-            while(!feof(arquivo_backup)) {
-
-                fgets((char*)dados, 63, arquivo_backup);
-
-                //
-
-                if (!conversaPadrao(strlen((char*)dados), i, MEN_TIPO_DADOS, dados)) {
-                    return;
-                }
-
-                if (++i >= 63)
-                    i = 0;
-            }
-
-            //
-
-            if (!conversaPadrao(0, 0, MEN_TIPO_FIM_ARQUIVO, NULL)) {
-                return;
-            }
+            enviarArquivo();
         break;
 
         case (2) :
-            // manda multiplos arquivos
+            printf("Quantos arquivos deseja enviar: ");
+
+            scanf("%d", &totalArquivos);
+
+            //
+
+            if (!conversaPadrao(strlen((char*)&totalArquivos), 0, MEN_TIPO_BACKUP_MULT, (unsigned char*)&totalArquivos)) {
+                return;
+            }
+
+            //
+
+            for (i = 0; i < totalArquivos; i++) {
+                if (enviarArquivo() < 0) {
+                    // falha ao enviar arquivo
+                }
+            }
+
+            //
+
+            if (!conversaPadrao(0, 0, MEN_TIPO_FIM_MULT, NULL)) {
+                return;
+            }
         break;
 
         case (3) :
