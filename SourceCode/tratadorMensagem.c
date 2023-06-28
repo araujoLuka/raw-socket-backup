@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "../file_transfer.h"
 
 
@@ -21,6 +22,7 @@ int mult = 0, totalArquivos = 0, arq = 0;
 // 
 void trata_mensagem_recebida() {
     int initial_message;
+    char nome[64];
     char char_buffer[64];
 
     //
@@ -35,7 +37,7 @@ void trata_mensagem_recebida() {
     char paridade = geraParidade(men_recebida.dados, 
                                  obtemTamMensagem(men_recebida.tamanho_sequencia_tipo));
     if (men_recebida.paridade_vertical != paridade) {
-        fprintf(stderr, "DEBUGG Mensagem recebida, mas paridade errada\n");
+        fprintf(stderr, "DEBUG: Mensagem recebida, mas paridade errada\n");
         enviaMensagem(0, 0, MEN_TIPO_NACK, NULL);
         return;
     }
@@ -51,34 +53,18 @@ void trata_mensagem_recebida() {
             }
             strcpy(tipoDeAcesso, "w");
 
-            strcpy((char*) char_buffer, (char*) men_recebida.dados);
-            printf("Dados: Nome de arquivo recebido %s\n", char_buffer);
-            printf("Dados: Nome de arquivo recebido %s\n", men_recebida.dados);
+            strcpy((char*) nome, (char*) men_recebida.dados);
+            printf("Dados: Nome de arquivo recebido %s\n", nome);
 
             //
 
-            arquivoAberto = fopen((char*) char_buffer, tipoDeAcesso);
+            arquivoAberto = fopen((char*) nome, tipoDeAcesso);
             if (arquivoAberto == NULL) {
                 fprintf(stderr, "ERRO: Falha ao abrir arquivo\n");
                 enviaMensagem(0, 0, MEN_TIPO_ERRO, NULL);
                 return;
             }
 
-            //
-            
-            if (mult == 0) {
-                printf("Arquivo recebido: %s\n\n", char_buffer);
-            }
-            else {
-                printf("Arquivo %2d recebido: %s\n\n", arq, char_buffer);
-                arq++;
-                if (totalArquivos - arq > 0) {
-                    printf("Faltam %2d arquivos a receber\n", totalArquivos - arq);
-                } else {
-                    printf("Foram recebidos todos os %d arquivos multiplos\n", totalArquivos);
-                    printf("Aguardando por encerramento de backup multiplo...\n\n");
-                }
-            }
 
             //
 
@@ -103,6 +89,13 @@ void trata_mensagem_recebida() {
         case (MEN_TIPO_RECUPERA_1) :
             strcpy(tipoDeAcesso, "r");
 
+            FILE *f = fopen((char *)men_recebida.dados, tipoDeAcesso);
+            if (f == NULL) {
+                fprintf(stderr, "ERRO: arquivo solicitado nao existe no servidor\n");
+                enviaMensagem(0, 0, MEN_TIPO_ERRO, NULL);
+                return;
+            }
+
             enviaMensagem(0, 0, MEN_TIPO_ACK, NULL);
         break;
 
@@ -117,6 +110,22 @@ void trata_mensagem_recebida() {
         case (MEN_TIPO_FIM_ARQUIVO) :
 
             fclose(arquivoAberto);
+
+            //
+            
+            if (mult == 0) {
+                printf("Arquivo recebido: %s\n\n", nome);
+            }
+            else {
+                printf("Arquivo %2d recebido: %s\n\n", arq, nome);
+                arq++;
+                if (totalArquivos - arq > 0) {
+                    printf("Faltam %2d arquivos a receber\n", totalArquivos - arq);
+                } else {
+                    printf("Foram recebidos todos os %d arquivos multiplos\n", totalArquivos);
+                    printf("Aguardando por encerramento de backup multiplo...\n\n");
+                }
+            }
             
             enviaMensagem(0, 0, MEN_TIPO_ACK, NULL);
 
@@ -136,9 +145,29 @@ void trata_mensagem_recebida() {
 
         //
 
-        case (MEN_TIPO_RECUPERA_ARQUIVO) :
+        case (MEN_TIPO_RECUPERA_NOME) :
             // recebe o nome de um arquivo para ser recuperado
             // responde com o arquivo
+            if (mult == 0) {
+                printf("Tipo: Inicio de recuperacao para 1 arquivo\n");
+            }
+            strcpy(tipoDeAcesso, "w");
+
+            strcpy((char*) nome, (char*) men_recebida.dados);
+            printf("Dados: Nome de arquivo recebido %s\n", nome);
+
+            //
+
+            arquivoAberto = fopen((char*) nome, tipoDeAcesso);
+            if (arquivoAberto == NULL) {
+                fprintf(stderr, "ERRO: Falha ao abrir arquivo\n");
+                enviaMensagem(0, 0, MEN_TIPO_ERRO, NULL);
+                return;
+            }
+
+            //
+
+            enviaMensagem(0, 0, MEN_TIPO_ACK, NULL);
 
         break;
 
@@ -212,9 +241,16 @@ int enviarArquivo () {
 //
 void envia_proxima_mensagem() {
     int totalArquivos = 0;
+    char nome[64];
 
-    printf("Escolha oque fazer:\n");
-    printf("(1) Backup 1 arquivo\n(2) Backup varios arquivo\n(3) Recupera 1 arquivo\n(4) Recupera varios arquivo\n(5) Muda Dir\n(6) Verifica arquivo\n(7) Encerra\n");
+    printf("Escolha o que fazer:\n");
+    printf("(1) Backup 1 arquivo\n");
+    printf("(2) Backup varios arquivo\n");
+    printf("(3) Recupera 1 arquivo\n");
+    printf("(4) Recupera varios arquivo\n");
+    printf("(5) Muda Dir\n");
+    printf("(6) Verifica arquivo\n");
+    printf("(7) Encerra\n");
 
     //
 
@@ -256,8 +292,22 @@ void envia_proxima_mensagem() {
 
         case (3) :
             // obtem o nome do arquivo do usuario
+            printf("Qual arquivo deseja recuperar: ");
+            scanf("%s", nome);
+
             // pergunta se existe na outra maquina
+            if (!conversaPadrao(strlen(nome), 0, MEN_TIPO_RECUPERA_1, (unsigned char *)nome)) {
+                if (obtemTipoMensagem(men_recebida.tamanho_sequencia_tipo) == MEN_TIPO_ERRO) {
+                    fprintf(stderr, "ERRO: arquivo solicitado nao existe no servidor\n");
+                }
+                return;
+            }
+
+            enviaMensagem(0, 0, MEN_TIPO_ACK, NULL);
+
             // se existe, começa a receber
+            trata_mensagem_recebida();
+
             // recebe o titulo salvando em uma variavel
             // vai aos poucos preenchendo o arquivo
             // ate receber um fim de arquivo

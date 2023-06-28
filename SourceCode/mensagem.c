@@ -104,6 +104,7 @@ void enviaMensagem(int tam, int sequencia, int tipo, unsigned char* dados) {
 // caso de timeout retorna 0
 int recebeMensagem() {
 	int nbytes = 0;
+    int tam = 0;
 	mensagem men;
 
     //
@@ -123,7 +124,10 @@ int recebeMensagem() {
             }
 
 			// copia dados para men_recebida e sai do loop
-			men_recebida = men; 
+            tam = obtemTamMensagem(men.tamanho_sequencia_tipo);
+            men.dados[tam+1] = '\0';
+
+			men_recebida = men;
 			mensagem_recebida = 1;
 		}
     }

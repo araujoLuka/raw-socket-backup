@@ -8,7 +8,7 @@
 
 #define MEN_TIPO_VERIFICAR_BACKUP   5
 
-#define MEN_TIPO_RECUPERA_ARQUIVO   6
+#define MEN_TIPO_RECUPERA_NOME      6
 
 #define MEN_TIPO_MD5                7
 
